@@ -1,9 +1,9 @@
 import cv2
 import numpy
 
-img = cv2.imread('picture/0.jpg', cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('picture/1.jpg', cv2.IMREAD_GRAYSCALE)
 
-circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1 ,300, param1=100, param2=50, minRadius=80, maxRadius=800)#霍夫圆变换
+circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1 ,300, param1=100, param2=200, minRadius=10, maxRadius=400)#霍夫圆变换
 #第3参数默认为1
 #第4参数表示圆心与圆心之间的距离（太大的话，会很多圆被认为是一个圆）
 #第5参数默认为100
