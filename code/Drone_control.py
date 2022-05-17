@@ -1,4 +1,6 @@
 import airsim
+import numpy
+import cv2
 
 class DroneControler():
     def __init__(self):
@@ -42,3 +44,30 @@ class DroneControler():
 
     def MoveByWorldSpeed(self):
         pass
+
+    def get_img(self, img_type):
+        responses = self.client.simGetImages([
+                airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
+                airsim.ImageRequest("0", airsim.ImageType.DepthPerspective, True, False)
+                ])
+
+        if img_type == "RGB":
+            response = responses[0]
+            buffer = numpy.frombuffer(response.image_data_uint8, dtype=numpy.uint8) 
+            img_rgb = buffer.reshape(response.height, response.width, -1)
+            return img_rgb
+            # cv2.imwrite('./img/RGB/0.jpg', img_rgb)
+        
+        elif img_type == "Grayscale":
+            response = responses[0]
+            buffer = numpy.frombuffer(response.image_data_uint8, dtype=numpy.uint8) 
+            img_rgb = buffer.reshape(response.height, response.width, -1)
+            img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
+            cv2.imwrite('./img/Grayscale/0.jpg', img_gray)
+            return img_gray
+
+        else:
+            return responses
+
+    def rest(self):
+        self.client.reset()
