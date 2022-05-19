@@ -1,6 +1,7 @@
 import airsim
 import numpy
 import cv2
+import time
 
 class DroneControler():
     def __init__(self):
@@ -10,8 +11,9 @@ class DroneControler():
         self.client.confirmConnection() # 查询是否建立连接
         self.client.enableApiControl(True)   # 打开API控制权
         self.client.armDisarm(True)    # 解锁
+        # self.get_position()
         self.client.takeoffAsync().join()     # 起飞
-        self.client.moveToZAsync(-1.5, 0.5).join()   # 上升到1.5米高度 0.5m/s速度
+        self.client.moveToZAsync(-2, 1).join()   # 上升到1.5米高度 0.5m/s速度
 
     def landing(self):
         # self.client.moveToZAsync(-1, 5).join()
@@ -35,6 +37,7 @@ class DroneControler():
         z = state.kinematics_estimated.position.z_val
         (pitch, roll, yaw) = airsim.to_eularian_angles(state.kinematics_estimated.orientation)
         print("x:", x, "y:", y, "z:", z, "roll:", roll, "pitch:", pitch, "yaw:", yaw)
+        return x, y, z, roll, pitch, yaw
 
     def MoveByDroneSpeed(self, x, y, z, time):
         self.client.moveByVelocityBodyFrameAsync(vx=x, vy=y, vz=z, duration=time).join()
@@ -46,6 +49,8 @@ class DroneControler():
         pass
 
     def get_img(self, img_type):
+        self.client.hoverAsync()
+        time.sleep(0.5)
         responses = self.client.simGetImages([
                 airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
                 airsim.ImageRequest("0", airsim.ImageType.DepthPerspective, True, False)
