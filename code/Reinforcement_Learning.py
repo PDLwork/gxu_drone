@@ -54,7 +54,7 @@ class frame():
         next_state = self.client.get_img("RGB")
         x, y, z, roll, pitch, yaw = self.client.get_position()
         done = False
-        if (x<-2) or (x>2) or (z<-3) or (z>0.2) or (y<-2) or (y>10):
+        if (x<-2) or (x>2) or (z<-3) or (z>0.2) or (y<-2) or (y>12):
             done = True
         reward = 0.3*(1-((x+1)/3)) + 0.3*(1-((z+2.6)/2.8)) + 0.4*(1-((y-10)/12))
         return next_state, reward, done

@@ -19,7 +19,7 @@ class Mynet(torch.nn.Module):
             torch.nn.Linear(64, 8)
         )
         self.mls = torch.nn.MSELoss()
-        self.opt = torch.optim.Adam(self.parameters(), lr = 0.001)
+        self.opt = torch.optim.Adam(self.parameters(), lr = 0.01)
 
     def forward(self, input):
         output = self.Mymodule(input)

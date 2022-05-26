@@ -15,7 +15,7 @@ if __name__ == "__main__":
     #     device = torch.device("cpu")
     #     print('系统不可以使用GPU训练！\n即将采用CPU训练')
 
-    net = Deep_Learning.Mynet()     #创建深度学习网络
+    net = Deep_Learning.Mynet()     # 创建深度学习网络
     net_delay = Deep_Learning.Mynet()
     net.load_state_dict(torch.load("mynet"))
     net_delay.load_state_dict(torch.load("mynet"))
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         torchvision.transforms.Resize((32, 32))
         ])
 
-    for i in range(30):
+    for i in range(40):
         print(i)
         MyDrone.initFly()   #初始化飞行
         MyDrone.hover() #悬停
