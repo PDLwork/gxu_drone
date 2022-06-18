@@ -8,6 +8,7 @@ import time
 import numpy
 
 if __name__ == "__main__":
+    '''------------------------------创建对象------------------------------'''
     # if torch.cuda.is_available():
     #     device = torch.device("cuda")   #cuda:0
     #     print('系统可以使用GPU训练！\n即将采用GPU训练')
@@ -29,6 +30,7 @@ if __name__ == "__main__":
     # loss_function = loss_function.to(device)
 
 
+    '''------------------------------参数设置------------------------------'''
     store_count = 0
     store_size = 500  # buffer size
     decline = 0.8  # 衰减系数
@@ -38,6 +40,8 @@ if __name__ == "__main__":
     batch_size = 64
     wc = 0
 
+
+    '''------------------------------定义变量------------------------------'''
     store_state = numpy.zeros((store_size, 3, 32, 32))
     store_action = numpy.zeros(store_size)
     store_next_state = numpy.zeros((store_size, 3, 32, 32))
@@ -46,12 +50,13 @@ if __name__ == "__main__":
     start_study = False
 
 
-
+    # 暂时独立函数
     transform2tensor = torchvision.transforms.Compose([
         torchvision.transforms.ToTensor(),
         torchvision.transforms.Resize((32, 32))
         ])
 
+    #开始循环学习（失败40次后结束）
     for i in range(40):
         print(i)
         MyDrone.initFly()   #初始化飞行
@@ -129,29 +134,7 @@ if __name__ == "__main__":
                 MyDrone.rest()
                 time.sleep(2)
                 break
+    #饱餐网络参数
     torch.save(net_delay.state_dict(), "mynet")
-
-
-
-    # MyDrone.initFly()   #初始化飞行
-    # MyDrone.MoveByDroneSpeed(0, 1, 0, 1.5)
-    # MyDrone.Move2position(-1, 10, -3, 2)
-    # # MyDrone.change_Yaw(0, 0, -(numpy.pi/2), 0.5, 4)
-    # MyDrone.change_Yaw(0, 0, (numpy.pi/2), 0.5, 2)
-    # # MyDrone.MoveByDroneSpeed(0, 1, 0, 5)
-    # MyDrone.hover() #悬停
-    # # MyDrone.rest()
-    # # MyDrone.get_img("RGB")
-    # MyDrone.hover()
-    # time.sleep(5)
-    # MyDrone.get_position()
-    # time.sleep(5)
-    # MyDrone.Move2position(0, 0, -2, 2)
-    # time.sleep(5)
-    # MyDrone.Move2position(-1, 10, -3, 2)
-    # MyDrone.rest()
-    # MyDrone.landing()
-    # MyDrone.end_fly()
-
 
     print("----------测试完成！----------")
