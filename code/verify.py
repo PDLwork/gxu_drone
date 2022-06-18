@@ -27,11 +27,7 @@ if __name__ == "__main__":
 
         with torch.no_grad():
             output = net(state)
-            print(output)
+            # print(output)
         action = output.argmax(1) # 根据输入S得到输出动作
 
         next_state, reward, done = RL_frame.take_action(action)
-        img = transform2tensor(next_state)
-        next_state = torch.reshape(img, (1, 3, 32, 32))
-
-        state = next_state
