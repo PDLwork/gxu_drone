@@ -1,4 +1,3 @@
-from turtle import done
 import Deep_Learning
 import torch
 import Drone_control
