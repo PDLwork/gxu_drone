@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     #开始循环学习（失败40次后结束）
     for i in range(40):
-        print(i)
+        # print("----------第"+i+"次学习！----------")
         MyDrone.initFly()   #初始化飞行
         MyDrone.hover() #悬停
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
             store_next_state[store_count % store_size] = next_state
             store_reward[store_count % store_size] = reward
             store_count += 1
-            print(store_count)
+            # print(store_count)
 
             # 更新状态
             state = next_state

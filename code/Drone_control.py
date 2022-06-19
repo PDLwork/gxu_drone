@@ -50,7 +50,7 @@ class DroneControler():
 
     def get_img(self, img_type):
         self.client.hoverAsync()
-        time.sleep(0.5)
+        # time.sleep(0.5)
         responses = self.client.simGetImages([
                 airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
                 airsim.ImageRequest("0", airsim.ImageType.DepthPerspective, True, False)
