@@ -13,7 +13,7 @@ class DroneControler():
         self.client.armDisarm(True)    # 解锁
         # self.get_position()
         self.client.takeoffAsync().join()     # 起飞
-        self.client.moveToZAsync(-2, 1).join()   # 上升到1.5米高度 0.5m/s速度
+        # self.client.moveToZAsync(-2, 5).join()   # 上升到1.5米高度 0.5m/s速度
 
     def landing(self):
         # self.client.moveToZAsync(-1, 5).join()
@@ -68,14 +68,13 @@ class DroneControler():
             buffer = numpy.frombuffer(response.image_data_uint8, dtype=numpy.uint8) 
             img_rgb = buffer.reshape(response.height, response.width, -1)
             img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
-            cv2.imwrite('./img/Grayscale/0.jpg', img_gray)
+            # cv2.imwrite('./img/Grayscale/0.jpg', img_gray)
             return img_gray
 
         if img_type == "Depth":
             response = responses[1]
             Depth_Img = airsim.get_pfm_array(response)
-            print(Depth_Img)
-            cv2.imwrite('./img/Depth/0.jpg', Depth_Img)
+            # cv2.imwrite('./img/Depth/0.jpg', Depth_Img)
             return Depth_Img
         
         else:

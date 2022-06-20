@@ -6,29 +6,29 @@
 # print(store_state)
 
 '''------------------------------------------------------------'''
-# import tkinter
+import tkinter
     
-# #GUI页面设计
-# Window = tkinter.Tk()     #创建调参的窗口
+#GUI页面设计
+Window = tkinter.Tk()     #创建调参的窗口
 
-# #定义按钮并放置
-# Button_1 = tkinter.Button(Window,\
-#                         text='↖',\
-#                         font=('Arial', 12),\
-#                         width=10,\
-#                         height=1,\
-#                         command=1)
-# Button_1.pack()
+#定义按钮并放置
+Button_1 = tkinter.Button(Window,\
+                        text='↖',\
+                        font=('Arial', 12),\
+                        width=10,\
+                        height=1,\
+                        command=1)
+Button_1.pack()
 
-# Button_100 = tkinter.Button(Window,\
-#                         text='↗',\
-#                         font=('Arial', 12),\
-#                         width=10,\
-#                         height=1,\
-#                         command=1)
-# Button_100.pack()
+Button_100 = tkinter.Button(Window,\
+                        text='↗',\
+                        font=('Arial', 12),\
+                        width=10,\
+                        height=1,\
+                        command=1)
+Button_100.pack()
 
-# Window.mainloop()
+Window.mainloop()
 
 '''------------------------------------------------------------'''
-print(10.5/2)
+# print(10.5/2)
