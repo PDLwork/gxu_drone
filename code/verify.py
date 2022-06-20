@@ -19,6 +19,8 @@ if __name__ == "__main__":
 
     done = False
     MyDrone.initFly()
+    MyDrone.Move2position(-0.5, 3, -2.5, 2)     #第一个圈起点
+    # MyDrone.Move2position(1.3, 10, -0.5, 2)     #第2个圈起点
 
     while not done:
         state = MyDrone.get_img("RGB")
@@ -27,7 +29,7 @@ if __name__ == "__main__":
 
         with torch.no_grad():
             output = net(state)
-            # print(output)
+            print(output)
         action = output.argmax(1) # 根据输入S得到输出动作
 
         next_state, reward, done = RL_frame.take_action(action)

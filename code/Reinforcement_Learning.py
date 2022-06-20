@@ -6,6 +6,7 @@ class frame():
         self.client = client
 
     def take_action(self, action):
+        #根据不同动作采取不同的行动
         if action == "forward":
             self.client.MoveByDroneSpeed(1, 0, 0, 1)
         if action == "backward":
@@ -54,8 +55,12 @@ class frame():
         next_state = self.client.get_img("RGB")
         x, y, z, roll, pitch, yaw = self.client.get_position()
         done = False
-        if (x<-2) or (x>2) or (z<-3) or (z>0.2) or (y<-2) or (y>12):    #限制无人机的位置范围，一个长方体
+        if (x<-2) or (x>2) or (z<-3) or (z>0.2) or (y<-2) or (y>12):    #限制无人机的位置范围，一个长方体   第一个圈
             done = True
-        reward = 0.3*(1-((x+1)/3)) + 0.3*(1-((z+2.6)/2.8)) + 0.4*(1-((y-10)/12))    #奖励函数的设置 
+        # if (x<-1) or (x>3) or (z<-3) or (z>0.2) or (y<9) or (y>20):    #限制无人机的位置范围，一个长方体   第一个圈
+        #     done = True
+        # reward = 0.3*(1-((x+1)/3)) + 0.3*(1-((z+2.6)/2.8)) + 0.4*(1-((y-10)/12))    #奖励函数的设置 第一个版本
+        L = numpy.sqrt((x+0.5)**2 + (y-9)**2 + (z+2.5)**2)  #目标位置 （-0.5, 9, -2.5）
+        reward = 1-(L/5)
         return next_state, reward, done
         

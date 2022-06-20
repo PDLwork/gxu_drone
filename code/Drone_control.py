@@ -71,6 +71,13 @@ class DroneControler():
             cv2.imwrite('./img/Grayscale/0.jpg', img_gray)
             return img_gray
 
+        if img_type == "Depth":
+            response = responses[1]
+            Depth_Img = airsim.get_pfm_array(response)
+            print(Depth_Img)
+            cv2.imwrite('./img/Depth/0.jpg', Depth_Img)
+            return Depth_Img
+        
         else:
             return responses
 

@@ -60,6 +60,8 @@ if __name__ == "__main__":
     for i in range(40):
         # print("----------第"+i+"次学习！----------")
         MyDrone.initFly()   #初始化飞行
+        MyDrone.Move2position(-0.5, 3, -2.5, 2)     #第一个圈起点
+        # MyDrone.Move2position(1.3, 10, -0.5, 2)     #第2个圈起点
         MyDrone.hover() #悬停
 
         while True:
