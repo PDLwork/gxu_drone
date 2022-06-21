@@ -6,6 +6,7 @@ import time
 class DroneControler():
     def __init__(self):
         self.client = airsim.MultirotorClient()
+        self.img_count = 0
 
     def initFly(self):
         self.client.confirmConnection() # 查询是否建立连接
@@ -48,8 +49,9 @@ class DroneControler():
     def MoveByWorldSpeed(self):
         pass
 
+    #读取图片
     def get_img(self, img_type):
-        self.client.hoverAsync()
+        # self.client.hoverAsync()
         # time.sleep(0.5)
         responses = self.client.simGetImages([
                 airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
@@ -60,8 +62,8 @@ class DroneControler():
             response = responses[0]
             buffer = numpy.frombuffer(response.image_data_uint8, dtype=numpy.uint8) 
             img_rgb = buffer.reshape(response.height, response.width, -1)
-            return img_rgb
             # cv2.imwrite('./img/RGB/0.jpg', img_rgb)
+            return img_rgb
         
         elif img_type == "Grayscale":
             response = responses[0]
@@ -82,3 +84,17 @@ class DroneControler():
 
     def rest(self):
         self.client.reset()
+
+    # 保存图片
+    def save_img(self, img_type):
+        if img_type == "RGB":
+            img_rgb = self.get_img("RGB")
+            cv2.imwrite('./img/RGB/{}.jpg'.format(self.img_count), img_rgb)
+        elif img_type == "Grayscale":
+            img_gray = self.get_img("Grayscale")
+            cv2.imwrite('./img/Grayscale/{}.jpg'.format(self.img_count), img_gray)
+        if img_type == "Depth":
+            Depth_Img = self.get_img("Depth")
+            cv2.imwrite('./img/Depth/{}.jpg'.format(self.img_count), Depth_Img)
+
+        self.img_count += 1

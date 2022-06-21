@@ -51,6 +51,8 @@ class frame():
             # self.client.change_Yaw(0, 0, yaw, 0.5, 4)
             pass
         
+        self.client.save_img("Depth")
+
         self.client.hover() #悬停
         next_state = self.client.get_img("RGB")
         x, y, z, roll, pitch, yaw = self.client.get_position()
