@@ -51,7 +51,10 @@ class frame():
             # self.client.change_Yaw(0, 0, yaw, 0.5, 4)
             pass
         
+        #执行完一步保存一张图片
         self.client.save_img("Depth")
+        self.client.img_count -= 1
+        self.client.save_img("RGB")
 
         self.client.hover() #悬停
         next_state = self.client.get_img("RGB")

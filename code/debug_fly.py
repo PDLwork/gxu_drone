@@ -15,13 +15,13 @@ if __name__ == "__main__":
     # MyDrone.Move2position(-0.5, 1, -2.5, 2)
     # MyDrone.Move2position(1.3, 10, -0.5, 2)     #第2个圈起点
     MyDrone.hover() #悬停
-    MyDrone.get_position()
-    MyDrone.get_img("Depth")
-    time.sleep(1)
+    # MyDrone.get_position()
+    # MyDrone.get_img("Depth")
+    # time.sleep(1)
     # MyDrone.Move2position(-0.5, 9, -2.5, 2)         #第1个圈目标点
     # MyDrone.Move2position(1.3, 16, -0.5, 2)     #第2个圈目标点
-    MyDrone.hover() #悬停
-    MyDrone.get_position()
+    # MyDrone.hover() #悬停
+    # MyDrone.get_position()
 
     GUI_window.keep()
 
