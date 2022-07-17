@@ -22,11 +22,11 @@ class frame():
         if action == "yaw_Right":
             x, y, z, roll, pitch, yaw = self.client.get_position()
             target_yaw = yaw - numpy.pi/18
-            self.client.change_Yaw(0, 0, yaw, 0.5, 1)
+            self.client.change_Yaw(0, 0, -target_yaw, 0.5, 1)
         if action == "yaw_left":
             x, y, z, roll, pitch, yaw = self.client.get_position()
             target_yaw = yaw + numpy.pi/18
-            self.client.change_Yaw(0, 0, target_yaw, 0.5, 1)
+            self.client.change_Yaw(0, 0, -target_yaw, 0.5, 1)
 
         if action == 0:
             self.client.MoveByDroneSpeed(1, 0, 0, 0.5)

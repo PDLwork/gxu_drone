@@ -54,8 +54,8 @@ class DroneControler():
         # self.client.hoverAsync()
         # time.sleep(0.5)
         responses = self.client.simGetImages([
-                airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
-                airsim.ImageRequest("0", airsim.ImageType.DepthPerspective, True, False)
+                airsim.ImageRequest(0, airsim.ImageType.Scene, False, False),
+                airsim.ImageRequest(0, airsim.ImageType.DepthPerspective, True, False)
                 ])
 
         if img_type == "RGB":
