@@ -9,17 +9,12 @@ def circle_center():
 for i in range(len(os.listdir("./img/Depth"))):
     img = cv2.imread('./img/Depth/{}.jpg'.format(i), cv2.IMREAD_GRAYSCALE)
     img_RGB = cv2.imread('./img/RGB/{}.jpg'.format(i), cv2.IMREAD_COLOR)
-    # circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 100, param1=100, param2=100, minRadius=10, maxRadius=400)
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 50, param1=30, param2=30, minRadius=15, maxRadius = 255)
-    # circles = numpy.uint16(numpy.around(circles))
-    # P=circles[0]
-    print(circles)
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 30, param1=30, param2=30, minRadius=15, maxRadius = 255)
     if not circles is None:
         for j in circles[0]:
             cv2.circle(img_RGB,(int(j[0]),int(j[1])),int(j[2]),(0,255,0),2)#第二参数（）内是圆心坐标，第三参数是半径，第四参数（）内是颜色，第五参数是线条粗细
             cv2.circle(img_RGB,(int(j[0]),int(j[1])),2,(0,0,255),3)
-        print("第{}张图有{}个圆。".format(i, j))
-    print(i)
+        print("第{}张图有{}个圆。".format(i, len(circles[0])))
     cv2.imwrite('./img/Test/{}.jpg'.format(i), img_RGB, [int(cv2.IMWRITE_PNG_COMPRESSION), 3])
 
 
