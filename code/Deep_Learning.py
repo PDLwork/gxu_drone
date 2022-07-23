@@ -1,3 +1,4 @@
+'''神经网络模型'''
 import torch
 
 class Mynet(torch.nn.Module):

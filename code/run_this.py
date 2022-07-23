@@ -1,3 +1,5 @@
+'''训练DQN的主函数'''
+
 import Drone_control
 import Deep_Learning
 import Reinforcement_Learning

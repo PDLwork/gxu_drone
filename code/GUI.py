@@ -1,3 +1,5 @@
+'''用户交互页面'''
+
 import tkinter
 
 #GUI页面设计

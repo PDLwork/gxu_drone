@@ -1,3 +1,4 @@
+'''测试某些函数使用方法，非必须'''
 # import numpy
 
 # store_state = numpy.zeros((1000, 3, 32, 32))
