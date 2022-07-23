@@ -1,4 +1,4 @@
-'''检测圆心函数'''
+'''检测圆心函数，（检测是否过圆）'''
 import cv2
 import numpy
 import os
