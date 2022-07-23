@@ -1,3 +1,5 @@
+'''该文件是为了创建一个类，别的文件调用之后可以通过写好的方法来控制无人机以及获取图片'''
+
 import airsim
 import numpy
 import cv2
@@ -8,31 +10,33 @@ class DroneControler():
         self.client = airsim.MultirotorClient()
         self.img_count = 0
 
+    # 初始化无人机通常需要调用，调用完后无人机会起飞一定高度。
     def initFly(self):
         self.client.confirmConnection() # 查询是否建立连接
         self.client.enableApiControl(True)   # 打开API控制权
         self.client.armDisarm(True)    # 解锁
-        # self.get_position()
         self.client.takeoffAsync().join()     # 起飞
-        # self.client.moveToZAsync(-2, 5).join()   # 上升到1.5米高度 0.5m/s速度
 
+    # 降落
     def landing(self):
-        # self.client.moveToZAsync(-1, 5).join()
         self.client.landAsync().join()
 
+    # 悬停
     def hover(self):
         self.client.hoverAsync()
     
+    # 移动到世界坐标(GPS)
     def Move2position(self, x, y, z, speed):
         self.client.moveToPositionAsync(x, y, z, speed).join()
 
+    # 结束飞行释放API控制权（若没有降落则无人机会突然降落）
     def end_fly(self):
         self.client.armDisarm(False)     # 上锁
         self.client.enableApiControl(False)   # 关闭API控制权
 
+    # 获取无人机的世界坐标以及航向角
     def get_position(self):
         state = self.client.getMultirotorState()
-        # print(state)
         x = state.kinematics_estimated.position.x_val
         y = state.kinematics_estimated.position.y_val
         z = state.kinematics_estimated.position.z_val
@@ -40,12 +44,15 @@ class DroneControler():
         print("x:", x, "y:", y, "z:", z, "roll:", roll, "pitch:", pitch, "yaw:", yaw)
         return x, y, z, roll, pitch, yaw
 
+    # 飞行通过机体坐标三轴速度及时间
     def MoveByDroneSpeed(self, x, y, z, time):
         self.client.moveByVelocityBodyFrameAsync(vx=x, vy=y, vz=z, duration=time).join()
 
+    # 改变无人机Yaw角（偏航）
     def change_Yaw(self, input_roll, input_pitch, input_yaw, input_throttle, input_duration):
         self.client.moveByRollPitchYawThrottleAsync(roll=input_roll, pitch=input_pitch, yaw=input_yaw, throttle=input_throttle, duration=input_duration).join()
 
+    # 通过世界坐标速度移动（未编写）
     def MoveByWorldSpeed(self):
         pass
 
