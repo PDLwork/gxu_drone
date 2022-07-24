@@ -1,6 +1,5 @@
-'''用于调试无人机飞行，非必须'''
+'''用于调试无人机飞行，用于手动操作飞到一些位置，获取信息调试用，非必须'''
 
-import Reinforcement_Learning
 import Drone_control
 import GUI
 import time
@@ -9,8 +8,7 @@ import numpy
 if __name__ == "__main__":
 
     MyDrone = Drone_control.DroneControler()    #创建无人机对象
-    RL_frame = Reinforcement_Learning.frame(MyDrone)
-    GUI_window = GUI.GUI_Design(RL_frame)
+    GUI_window = GUI.GUI_Design(MyDrone)
 
     # MyDrone.rest()
     MyDrone.initFly()   #初始化飞行

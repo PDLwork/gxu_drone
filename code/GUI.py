@@ -1,12 +1,13 @@
 '''用户交互页面'''
 
 import tkinter
+import numpy
 
 #GUI页面设计
 class GUI_Design():
-    def __init__(self, Drone):
+    def __init__(self, client):
         self.window = tkinter.Tk()
-        self.UAV = Drone
+        self.client = client
 
         #定义按钮并放置
         Button_Turn_left = tkinter.Button(self.window,\
@@ -77,21 +78,25 @@ class GUI_Design():
 
     #按下不同按钮执行不同动作
     def Turn_left(self):
-        self.UAV.take_action("yaw_left")
+        x, y, z, roll, pitch, yaw = self.client.get_position()
+        target_yaw = yaw - numpy.pi/18
+        self.client.change_Yaw(0, 0, -target_yaw, 0.6, 1)
     def Turn_Right(self):
-        self.UAV.take_action("yaw_Right")
+        x, y, z, roll, pitch, yaw = self.client.get_position()
+        target_yaw = yaw + numpy.pi/18
+        self.client.change_Yaw(0, 0, -target_yaw, 0.6, 1)
     def Forward(self):
-        self.UAV.take_action("forward")
+        self.client.MoveByDroneSpeed(1, 0, 0, 1)
     def Backward(self):
-        self.UAV.take_action("backward")
+        self.client.MoveByDroneSpeed(-1, 0, 0, 1)
     def Left(self):
-        self.UAV.take_action("left")
+        self.client.MoveByDroneSpeed(0, -1, 0, 1)
     def Right(self):
-        self.UAV.take_action("right")
+        self.client.MoveByDroneSpeed(0, 1, 0, 1)
     def Up(self):
-        self.UAV.take_action("up")
+        self.client.MoveByDroneSpeed(0, 0, -1, 0.5)
     def Down(self):
-        self.UAV.take_action("down")
+        self.client.MoveByDroneSpeed(0, 0, 1, 0.5)
     
 
     def keep(self):

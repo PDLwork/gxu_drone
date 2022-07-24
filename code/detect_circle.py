@@ -6,6 +6,7 @@ import os
 def circle_center():
     pass
 
+'''测试参数，给一堆深度图，通过霍夫变换检测深度图，然后在RGB图中画圆并保存'''
 for i in range(len(os.listdir("./img/Depth"))):
     img = cv2.imread('./img/Depth/{}.jpg'.format(i), cv2.IMREAD_GRAYSCALE)
     img_RGB = cv2.imread('./img/RGB/{}.jpg'.format(i), cv2.IMREAD_COLOR)

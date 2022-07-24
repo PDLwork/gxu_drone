@@ -1,3 +1,5 @@
+'''该文件用于双线程的时候作为另一个程序不断连续采集图片'''
+
 import airsim
 import numpy
 import cv2
