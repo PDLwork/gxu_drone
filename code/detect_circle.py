@@ -3,20 +3,49 @@ import cv2
 import numpy
 import os
 
-def circle_center():
-    pass
-
-'''测试参数，给一堆深度图，通过霍夫变换检测深度图，然后在RGB图中画圆并保存'''
-for i in range(len(os.listdir("./img/Depth"))):
-    img = cv2.imread('./img/Depth/{}.jpg'.format(i), cv2.IMREAD_GRAYSCALE)
-    img_RGB = cv2.imread('./img/RGB/{}.jpg'.format(i), cv2.IMREAD_COLOR)
+"""检测圆心函数。输入深度图，检测到返回圆心坐标，否则返回False"""
+def circle_center(img):
     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 30, param1=30, param2=30, minRadius=15, maxRadius = 255)
     if not circles is None:
-        for j in circles[0]:
-            cv2.circle(img_RGB,(int(j[0]),int(j[1])),int(j[2]),(0,255,0),2)#第二参数（）内是圆心坐标，第三参数是半径，第四参数（）内是颜色，第五参数是线条粗细
-            cv2.circle(img_RGB,(int(j[0]),int(j[1])),2,(0,0,255),3)
-        print("第{}张图有{}个圆。".format(i, len(circles[0])))
-    cv2.imwrite('./img/Test/{}.jpg'.format(i), img_RGB, [int(cv2.IMWRITE_PNG_COMPRESSION), 3])
+        if len(circles[0]) == 1:    #检测到一个圆
+            print("当前检测到1个圆。圆心坐标为：{}，{}。".format(int(circles[0][0][0]), int(circles[0][0][1])))
+            return int(circles[0][0][0]), int(circles[0][0][1])
+        else:   #检测到多个圆，返回最大的圆心坐标
+            center_A = int(circles[0][0][0])
+            center_B = int(circles[0][0][1])
+            center_C = circles[0][0][2]
+            for j in circles[0]:
+                if j[2] > center_C:
+                    center_C = j[2]
+                    center_A = int(j[0])
+                    center_B = int(j[1])
+            print("当前检测到{}个圆。最大圆心坐标为：{}，{}。".format(len(circles[0]), center_A, center_B))
+            return center_A, center_B
+    else:
+        print("当前没有检测到圆。")
+        return False, False
+
+
+"""检测受否过圆函数"""
+def pass_judgment():
+    pass
+
+
+if __name__ == "__main__":
+    '''测试参数，给一堆深度图，通过霍夫变换检测深度图，然后在RGB图中画圆并保存'''
+    for i in range(len(os.listdir("./img/Depth"))):
+        img = cv2.imread('./img/Depth/{}.jpg'.format(i), cv2.IMREAD_GRAYSCALE)
+        flaga, flagb = circle_center(img)
+        img_RGB = cv2.imread('./img/RGB/{}.jpg'.format(i), cv2.IMREAD_COLOR)
+        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 30, param1=30, param2=30, minRadius=15, maxRadius = 255)
+        if not circles is None:
+            for j in circles[0]:
+                cv2.circle(img_RGB,(int(j[0]),int(j[1])),int(j[2]),(0,255,0),2) #第二参数（）内是圆心坐标，第三参数是半径，第四参数（）内是颜色，第五参数是线条粗细 画圆
+                cv2.circle(img_RGB,(int(j[0]),int(j[1])),2,(0,0,255),3) #画圆心
+            print("第{}张图有{}个圆。".format(i, len(circles[0])))
+        else:
+            print("第{}张图没有检测到圆。".format(i))
+        cv2.imwrite('./img/Test/{}.jpg'.format(i), img_RGB, [int(cv2.IMWRITE_PNG_COMPRESSION), 3])
 
 
 
