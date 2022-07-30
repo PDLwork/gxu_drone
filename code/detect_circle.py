@@ -3,9 +3,9 @@ import cv2
 import numpy
 import os
 
-"""检测圆心函数。输入深度图，检测到返回圆心坐标，否则返回False"""
+"""检测圆心函数。检测当前向前摄像头，检测到圆心则返回圆心坐标，否则返回False"""
 def circle_center(img):
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 30, param1=30, param2=30, minRadius=15, maxRadius = 255)
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 100, param1=50, param2=42, minRadius=15, maxRadius = 255)
     if not circles is None:
         if len(circles[0]) == 1:    #检测到一个圆
             print("当前检测到1个圆。圆心坐标为：{}，{}。".format(int(circles[0][0][0]), int(circles[0][0][1])))
@@ -26,9 +26,10 @@ def circle_center(img):
         return False, False
 
 
-"""检测受否过圆函数"""
-def pass_judgment():
-    pass
+"""检测受否过圆函数,过圈返回True，没过返回False"""
+def pass_judgment(img_right, img_left):
+    
+    return True
 
 
 if __name__ == "__main__":
@@ -37,7 +38,7 @@ if __name__ == "__main__":
         img = cv2.imread('./img/Depth/{}.jpg'.format(i), cv2.IMREAD_GRAYSCALE)
         flaga, flagb = circle_center(img)
         img_RGB = cv2.imread('./img/RGB/{}.jpg'.format(i), cv2.IMREAD_COLOR)
-        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 30, param1=30, param2=30, minRadius=15, maxRadius = 255)
+        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 100, param1=50, param2=30, minRadius=15, maxRadius = 255)
         if not circles is None:
             for j in circles[0]:
                 cv2.circle(img_RGB,(int(j[0]),int(j[1])),int(j[2]),(0,255,0),2) #第二参数（）内是圆心坐标，第三参数是半径，第四参数（）内是颜色，第五参数是线条粗细 画圆

@@ -44,9 +44,14 @@ class DroneControler():
         print("x:", x, "y:", y, "z:", z, "roll:", roll, "pitch:", pitch, "yaw:", yaw)
         return x, y, z, roll, pitch, yaw
 
+    #获取IMU信息
+    def get_IMU_data(self):
+        imu_data = self.client.getImuData()
+        return imu_data
+
     # 飞行通过机体坐标三轴速度及时间
     def MoveByDroneSpeed(self, x, y, z, time):
-        self.client.moveByVelocityBodyFrameAsync(vx=x, vy=y, vz=z, duration=time).join()
+        self.client.moveByVelocityBodyFrameAsync(vx=x, vy=y, vz=z, duration=time)
 
     # 改变无人机Yaw角（偏航）
     def change_Yaw(self, input_roll, input_pitch, input_yaw, input_throttle, input_duration):
@@ -62,14 +67,15 @@ class DroneControler():
         # time.sleep(0.5)
         responses = self.client.simGetImages([
                 airsim.ImageRequest(0, airsim.ImageType.Scene, False, False),
-                airsim.ImageRequest(0, airsim.ImageType.DepthPerspective, True, False)
+                airsim.ImageRequest(0, airsim.ImageType.DepthPerspective, True, False),
+                airsim.ImageRequest(3, airsim.ImageType.DepthPerspective, True, False),
+                airsim.ImageRequest(3, airsim.ImageType.Scene, False, False)
                 ])
 
         if img_type == "RGB":
             response = responses[0]
             buffer = numpy.frombuffer(response.image_data_uint8, dtype=numpy.uint8) 
             img_rgb = buffer.reshape(response.height, response.width, -1)
-            # cv2.imwrite('./img/RGB/0.jpg', img_rgb)
             return img_rgb
         
         elif img_type == "Grayscale":
@@ -77,14 +83,19 @@ class DroneControler():
             buffer = numpy.frombuffer(response.image_data_uint8, dtype=numpy.uint8) 
             img_rgb = buffer.reshape(response.height, response.width, -1)
             img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
-            # cv2.imwrite('./img/Grayscale/0.jpg', img_gray)
             return img_gray
 
-        if img_type == "Depth":
+        elif img_type == "Depth":
             response = responses[1]
-            Depth_Img = airsim.get_pfm_array(response)
-            # cv2.imwrite('./img/Depth/0.jpg', Depth_Img)
+            Depth_Img = numpy.uint8(airsim.get_pfm_array(response))
             return Depth_Img
+
+        elif img_type == "Bottom":
+            response = responses[3]
+            # Depth_Bottom_Img = airsim.get_pfm_array(response)
+            buffer = numpy.frombuffer(response.image_data_uint8, dtype=numpy.uint8) 
+            Depth_Bottom_Img = buffer.reshape(response.height, response.width, -1)
+            return Depth_Bottom_Img
         
         else:
             return responses
@@ -100,8 +111,11 @@ class DroneControler():
         elif img_type == "Grayscale":
             img_gray = self.get_img("Grayscale")
             cv2.imwrite('./img/Grayscale/{}.jpg'.format(self.img_count), img_gray)
-        if img_type == "Depth":
+        elif img_type == "Depth":
             Depth_Img = self.get_img("Depth")
             cv2.imwrite('./img/Depth/{}.jpg'.format(self.img_count), Depth_Img)
+        elif img_type == "Bottom":
+            Depth_Left_Img = self.get_img("Bottom")
+            cv2.imwrite('./img/Bottom/{}.jpg'.format(self.img_count), Depth_Left_Img)
 
         self.img_count += 1
