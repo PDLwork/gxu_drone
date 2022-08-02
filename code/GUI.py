@@ -81,24 +81,35 @@ class GUI_Design():
         x, y, z, roll, pitch, yaw = self.client.get_position()
         target_yaw = yaw - numpy.pi/18
         self.client.change_Yaw(0, 0, -target_yaw, 0.6, 1)
+        self.save_img1()
     def Turn_Right(self):
         x, y, z, roll, pitch, yaw = self.client.get_position()
         target_yaw = yaw + numpy.pi/18
         self.client.change_Yaw(0, 0, -target_yaw, 0.6, 1)
+        self.save_img1()
     def Forward(self):
         self.client.MoveByDroneSpeed(1, 0, 0, 5)
-        # self.client.save_img("Bottom")
+        self.save_img1()
     def Backward(self):
         self.client.MoveByDroneSpeed(-1, 0, 0, 5)
+        self.save_img1()
     def Left(self):
         self.client.MoveByDroneSpeed(0, -1, 0, 3)
+        self.save_img1()
     def Right(self):
         self.client.MoveByDroneSpeed(0, 1, 0, 3)
+        self.save_img1()
     def Up(self):
         self.client.MoveByDroneSpeed(0, 0, -1, 0.5)
+        self.save_img1()
     def Down(self):
         self.client.MoveByDroneSpeed(0, 0, 1, 0.5)
+        self.save_img1()
     
+    def save_img1(self):
+        self.client.save_img("RGB")
+        self.client.img_count -= 1
+        self.client.save_img("Depth")
 
     def keep(self):
         self.window.mainloop()      #循环显示窗口

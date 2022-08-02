@@ -26,10 +26,28 @@ def circle_center(img):
         return False, False
 
 
-"""检测受否过圆函数,过圈返回True，没过返回False"""
-def pass_judgment(img_right, img_left):
+"""检测受否过圆函数,过圈返回True，没过返回False,还未达到要求。"""
+def pass_judgment(img):
+    #二值化只保留超过阈值的 关于精度参数还得思考
+    for i in range(len(img)):
+        for j in range(len(img[0])):
+            if img[i][j] < 1:
+                img[i][j] = 1
+            else:
+                img[i][j] = 0
     
-    return True
+    sum1 = 0
+    sum2 = 0
+    for i in range(len(img)/2):
+        for j in range(len(img[0])):
+            sum1 += img[i][j]
+    for i in range(len(img)/2, len(img)):
+        for j in range(len(img[0])):
+            sum2 += img[i][j]
+    if sum1 > 1000 and sum2 < 100:
+        return 1
+    if sum2 > 1000 and sum1 < 100:
+        return 2
 
 
 if __name__ == "__main__":
@@ -38,7 +56,7 @@ if __name__ == "__main__":
         img = cv2.imread('./img/Depth/{}.jpg'.format(i), cv2.IMREAD_GRAYSCALE)
         flaga, flagb = circle_center(img)
         img_RGB = cv2.imread('./img/RGB/{}.jpg'.format(i), cv2.IMREAD_COLOR)
-        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 100, param1=50, param2=30, minRadius=15, maxRadius = 255)
+        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 30, param1=None, param2=30, minRadius=30, maxRadius=300)
         if not circles is None:
             for j in circles[0]:
                 cv2.circle(img_RGB,(int(j[0]),int(j[1])),int(j[2]),(0,255,0),2) #第二参数（）内是圆心坐标，第三参数是半径，第四参数（）内是颜色，第五参数是线条粗细 画圆

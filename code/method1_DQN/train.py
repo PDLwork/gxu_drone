@@ -23,8 +23,8 @@ if __name__ == "__main__":
 
     net = Deep_Learning.Mynet()     # 创建深度学习网络
     net_delay = Deep_Learning.Mynet()
-    # net.load_state_dict(torch.load("mynet"))
-    # net_delay.load_state_dict(torch.load("mynet"))
+    net.load_state_dict(torch.load("mynet.pth"))
+    net_delay.load_state_dict(torch.load("mynet.pth"))
     # net = net.to(device)
     # net_delay = net_delay.to(device)
 
