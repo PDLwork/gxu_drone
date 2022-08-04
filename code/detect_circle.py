@@ -3,9 +3,15 @@ import cv2
 import numpy
 import os
 
+class get_ciecle():
+    def __init__(self):
+        self.Flag = False       #当前是否存在圆,要具有一定容错性。存在即True
+        self.center_x = None
+        self.center_y = None
+
 """检测圆心函数。检测当前向前摄像头，检测到圆心则返回圆心坐标，否则返回False"""
 def circle_center(img):
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, minDist = 100, param1=50, param2=42, minRadius=15, maxRadius = 255)
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 100, param1=None, param2=40, minRadius=30, maxRadius=300)
     if not circles is None:
         if len(circles[0]) == 1:    #检测到一个圆
             print("当前检测到1个圆。圆心坐标为：{}，{}。".format(int(circles[0][0][0]), int(circles[0][0][1])))
@@ -54,9 +60,9 @@ if __name__ == "__main__":
     '''测试参数，给一堆深度图，通过霍夫变换检测深度图，然后在RGB图中画圆并保存'''
     for i in range(len(os.listdir("./img/Depth"))):
         img = cv2.imread('./img/Depth/{}.jpg'.format(i), cv2.IMREAD_GRAYSCALE)
-        flaga, flagb = circle_center(img)
+        # flaga, flagb = circle_center(img)
         img_RGB = cv2.imread('./img/RGB/{}.jpg'.format(i), cv2.IMREAD_COLOR)
-        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 30, param1=None, param2=30, minRadius=30, maxRadius=300)
+        circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 100, param1=None, param2=40, minRadius=30, maxRadius=300)
         if not circles is None:
             for j in circles[0]:
                 cv2.circle(img_RGB,(int(j[0]),int(j[1])),int(j[2]),(0,255,0),2) #第二参数（）内是圆心坐标，第三参数是半径，第四参数（）内是颜色，第五参数是线条粗细 画圆
@@ -68,7 +74,7 @@ if __name__ == "__main__":
 
 
 
-'''---------------------------------------------------------------------------------------------------------------------------------'''
+'''---------------------------------------------霍夫变换使用方法、相关参数说明-------------------------------------------------------------'''
 # img = cv2.imread('picture/1.jpg', cv2.IMREAD_GRAYSCALE)
 
 # circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1 ,300, param1=100, param2=200, minRadius=10, maxRadius=400)#霍夫圆变换
@@ -88,19 +94,4 @@ if __name__ == "__main__":
 #     cv2.circle(img,(i[0],i[1]),i[2],(0,255,0),2)#第二参数（）内是圆心坐标，第三参数是半径，第四参数（）内是颜色，第五参数是线条粗细
 #     # 画出圆心
 #     cv2.circle(img,(i[0],i[1]),2,(0,0,255),3)
-
-# print("圆的个数是：")
-# print(len(P))
-
-# for i in P:
-#     r=int(i[2])
-#     x=int(i[0])
-#     y=int(i[1])
-#     print("圆心坐标为：",(x,y))
-#     print("圆的半径是：",r)
-
-# cv2.imshow('test', img)
-
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
 '''---------------------------------------------------------------------------------------------------------------------------------'''

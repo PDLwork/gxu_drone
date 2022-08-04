@@ -11,9 +11,9 @@ if __name__ == "__main__":
     MyDrone.Move2position(-0.5, 3, -2.5, 2)     #可以作为第1个圈的初始检测位置，在这里可以比较近的看完全整个圈 第1个圈起点
     for i in range(40):
         img_buffer = MyDrone.get_img("Depth")
-        MyDrone.save_img("Depth")
-        MyDrone.img_count -= 1
-        MyDrone.save_img("RGB")
+        # MyDrone.save_img("Depth")
+        # MyDrone.img_count -= 1
+        # MyDrone.save_img("RGB")
         center_A, center_B = detect_circle.circle_center(img_buffer)
         print(center_A, center_B)
         flag_begin = False

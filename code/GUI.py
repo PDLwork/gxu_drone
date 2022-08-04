@@ -88,16 +88,16 @@ class GUI_Design():
         self.client.change_Yaw(0, 0, -target_yaw, 0.6, 1)
         self.save_img1()
     def Forward(self):
-        self.client.MoveByDroneSpeed(1, 0, 0, 5)
+        self.client.MoveByDroneSpeed(1, 0, 0, 2)
         self.save_img1()
     def Backward(self):
-        self.client.MoveByDroneSpeed(-1, 0, 0, 5)
+        self.client.MoveByDroneSpeed(-1, 0, 0, 2)
         self.save_img1()
     def Left(self):
-        self.client.MoveByDroneSpeed(0, -1, 0, 3)
+        self.client.MoveByDroneSpeed(0, -1, 0, 2)
         self.save_img1()
     def Right(self):
-        self.client.MoveByDroneSpeed(0, 1, 0, 3)
+        self.client.MoveByDroneSpeed(0, 1, 0, 2)
         self.save_img1()
     def Up(self):
         self.client.MoveByDroneSpeed(0, 0, -1, 0.5)
